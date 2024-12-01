@@ -5,26 +5,27 @@ namespace eCinana.Models.DbModels
 {
     public class Showtime
     {
-        public int ShowtimeId { get; set; }
+        [Key]
+        public int showtime_id { get; set; }
 
         [Required]
-        public int MovieId { get; set; }
+        public int movie_id { get; set; }
 
         [Required]
-        public int ScreenId { get; set; }
+        public int screen_id { get; set; }
 
         [Required]
-        public DateTime ShowDate { get; set; }
+        public DateTime show_date { get; set; }
 
         [Required]
-        public TimeSpan StartTime { get; set; }
+        public DateTime start_time { get; set; }
 
         [Required]
-        public TimeSpan EndTime { get; set; }
+        public DateTime end_time { get; set; }
 
-        // Navigation properties
-        public Movie Movie { get; set; }
-        public Screen Screen { get; set; }
+        //// Navigation properties
+        //public Movie Movie { get; set; }
+        //public Screen Screen { get; set; }
     }
 
 }

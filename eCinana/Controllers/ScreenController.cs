@@ -170,5 +170,54 @@ namespace eCinana.Controllers
             }
         }
         #endregion
+
+
+        #region vShowTime
+        [HttpGet]
+        public async Task<IActionResult> vShowTime([FromBody] vShowTime form)
+        {
+            try
+            {
+                if (await ValvShowTime(form))
+                {
+                    return GenerateErrorResponse();
+                }
+                var query = _context.Showtimes.Where(e => e.start_time >= form.start_time && e.end_time <= form.end_time);
+                if (form.screen_id != 0) 
+                { 
+                    query = query.Where(e => e.screen_id == form.screen_id); 
+                }
+                var data = await query.ToListAsync();
+                return Json(new { success = true, data = data });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    success = false,
+                    text = $"An unexpected error occurred: {ex.Message} {ex.InnerException?.Message ?? ""}"
+                });
+            }
+        }
+
+        [HttpPost]
+        public async Task<bool> ValvShowTime(vShowTime form)
+        {
+            bool result = false;
+            if (!ModelState.IsValid)
+            {
+                return true;
+            }
+
+            TimeSpan minimumDuration = new TimeSpan(3, 0, 0); 
+            if ((form.end_time - form.start_time) < minimumDuration) 
+            { 
+                ModelState.AddModelError("end_time", "End time must be at least 3 hours after start time."); 
+                return true; 
+            }
+
+            return result;
+        }
+        #endregion
     }
 }

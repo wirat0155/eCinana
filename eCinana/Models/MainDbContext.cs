@@ -15,6 +15,8 @@ namespace eCinana.Models
         public DbSet<User> Users { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Screen> Screens { get; set; }
+        public DbSet<Showtime> Showtimes { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

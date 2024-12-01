@@ -17,10 +17,11 @@ namespace eCinana.Controllers
 
                     if (key.Contains("["))
                     {
-                        var prefix = key.Substring(0, key.IndexOf("["));
-                        var formattedKey = prefix + key.Substring(key.IndexOf("["))
-                                                       .Replace("[", "_")
-                                                       .Replace("]", "");
+                        // Replace the first part of the key, keeping the brackets as is
+                        var formattedKey = key.Replace("[", "[") // Ensure we keep the brackets
+                                                       .Replace("]", "]"); // Ensure we keep the brackets
+
+                        // Format the key correctly with the brackets
                         return new { property = formattedKey, errorMessage };
                     }
                     else
@@ -37,6 +38,7 @@ namespace eCinana.Controllers
 
             return Json(new { success = false, errors = errorMessages });
         }
+
 
         protected string HashPassword(string password)
         {
